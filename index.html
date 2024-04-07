@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors Game</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="main">
+        <h1>Rock Paper Scissors Game</h1>
+
+        <button id="rockButton"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4Lqh081DWOXly3Yvgvj6u3119okg0t_cdqciX5NUCWw&s" alt=""></button>
+        <button id="paperButton"><img src="https://banner2.cleanpng.com/20180705/et/kisspng-printing-and-writing-paper-printing-and-writing-pa-garbage-bin-5b3e809deddc02.1424345715308228139743.jpg" alt=""></button>
+        <button id="scissorsButton"><img src="https://img.freepik.com/premium-vector/cute-funny-scissors-character_464314-1811.jpg" alt=""></button>
+
+        <div id="dynamicContent">
+            <!-- output displayed -->
+        </div>
+    </div>
+    
+    <script>
+        let counter = 0;
+        let scoreComputer = 0;
+        let scorePlayer = 0;
+
+        document.getElementById("rockButton").addEventListener("click", () => Play("rock"));
+        document.getElementById("paperButton").addEventListener("click", () => Play("paper"));
+        document.getElementById("scissorsButton").addEventListener("click", () => Play("scissors"));
+
+        function createParagraph(text) {
+            const paragraph = document.createElement("p");
+            paragraph.textContent = text;
+            return paragraph;
+        }
+
+        function createDiv(className) {
+            const div = document.createElement("div");
+            div.classList.add(className);
+            return div;
+        }
+
+        const container = document.getElementById("dynamicContent");
+
+        container.appendChild(createParagraph("You chose:"));
+        container.appendChild(createDiv("playerChoice"));
+        container.appendChild(createParagraph("Computer chose:"));
+        container.appendChild(createDiv("computerChoice"));
+        container.appendChild(createParagraph("Your score:"));
+        container.appendChild(createDiv("playerScore"));
+        container.appendChild(createParagraph("Computer score:"));
+        container.appendChild(createDiv("computerScore"));
+        container.appendChild(createParagraph("Final Result:"));
+        container.appendChild(createDiv("Final"));
+
+        function round(a, b) {
+            console.log('player chose ', a);
+            document.querySelector('.playerChoice').innerHTML = a;
+            console.log('computer chose ', b);
+            document.querySelector('.computerChoice').innerHTML = b;
+
+            if (a == b) {
+                scoreComputer += 0;
+                scorePlayer += 0;
+            } else {
+                switch (a) {
+                    case "rock":
+                        b == "scissors" ? scorePlayer += 1 : scoreComputer += 1;
+                        break;
+                    case "paper":
+                        b == "scissors" ? scoreComputer += 1 : scorePlayer += 1;
+                        break;
+                    case "scissors":
+                        b == "paper" ? scorePlayer += 1 : scoreComputer += 1;
+                        break;
+                }
+            }
+
+            console.log('player so far ', scorePlayer);
+            console.log('computer so far ', scoreComputer);
+            console.log('-----------------------------------');
+
+            document.querySelector('.playerScore').innerHTML = scorePlayer;
+            document.querySelector('.computerScore').innerHTML = scoreComputer;
+        }
+
+        function Play(player) {
+            document.querySelector('.Final').innerHTML = '';
+            counter = counter + 1;
+            let x = Math.floor(Math.random() * 3);
+            let choice = "";
+            switch (x) {
+                case 0:
+                    choice = 'rock';
+                    break;
+                case 1:
+                    choice = 'paper';
+                    break;
+                case 2:
+                    choice = 'scissors';
+                    break;
+            }
+            round(player, choice);
+
+            if (counter == 5) {
+                console.log('Player score is ', scorePlayer);
+                console.log('Computer score is ', scoreComputer);
+
+                if (scorePlayer == scoreComputer) {
+                    console.log('ITS A TIE!!');
+                    document.querySelector('.Final').innerHTML = 'ITS A TIE!!';
+                } else if (scorePlayer > scoreComputer) {
+                    console.log('YOU WON!!');
+                    document.querySelector('.Final').innerHTML = 'YOU WON!!';
+                } else {
+                    console.log('YOU LOST.');
+                    document.querySelector('.Final').innerHTML = 'YOU LOST.';
+                }
+                scoreComputer = 0;
+                scorePlayer = 0;
+                counter = 0;
+            }
+        }
+    </script>
+</body>
+</html>
